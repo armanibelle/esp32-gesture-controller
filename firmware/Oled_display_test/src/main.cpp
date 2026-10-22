@@ -18,12 +18,14 @@ void setup() {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
+
+  Serial.println("Display initialized");
   
   delay(2000);
   display.clearDisplay();
 
   // Set text size, color, and cursor position
-  display.setTextSize(1.5);             
+  display.setTextSize(1);             
   display.setTextColor(SSD1306_WHITE);  
   display.setTextWrap(false);         
   display.setCursor(0,20);             
