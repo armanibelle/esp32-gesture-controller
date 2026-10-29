@@ -64,8 +64,18 @@ void loop() {
   display.setCursor(0,30);
   display.print("AZ: ");
   display.println(a.acceleration.z);
-  
+
+  //Swipe threshold
+  if (a.acceleration.x > 6){
+    display.setCursor(0,45);
+    display.print("Left Swipe");
+  }else if(a.acceleration.x < -6){
+    display.setCursor(0,45);
+    display.print("Right Swipe");
+  }
+
   display.display();
+
 
   // Print Gyroscope data (Detects Speed of Rotation/Twisting)
   // Serial.print("Gyro X: "); Serial.print(g.gyro.x);
