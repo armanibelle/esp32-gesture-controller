@@ -11,9 +11,10 @@ Adafruit_MPU6050 mpu;
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+unsigned long gestureTime = 0;
+
 void setup() {
   Serial.begin(115200); // Start communication highway to PC
-  Serial.begin(115200);
 
   // Initialize with the I2C address 0x3C (common for 0.96" OLEDs)
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
@@ -65,15 +66,23 @@ void loop() {
   display.print("AZ: ");
   display.println(a.acceleration.z);
 
-  //Swipe threshold
-  if (a.acceleration.x > 6){
-    display.setCursor(0,45);
-    display.print("Left Swipe");
-  }else if(a.acceleration.x < -6){
-    display.setCursor(0,45);
-    display.print("Right Swipe");
-  }
 
+
+  //Swipe threshold
+  if (a.acceleration.x > 5.5 && millis() - gestureTime > 1000){
+    display.setCursor(0,45);
+    display.print("Tilt Left");
+    gestureTime = millis();
+  }else if (a.acceleration.x < -5.5 && millis() - gestureTime > 1000){
+    display.setCursor(30,45);
+    display.print("Tilt Right");
+    gestureTime = millis();
+  }else{
+    display.setCursor(70,32);
+    display.setTextSize(1);
+    display.print("Ready");
+  }
+  
   display.display();
 
 
